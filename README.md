@@ -120,3 +120,7 @@ MIT 许可证，详见 [LICENSE](LICENSE)。
 ## 参与贡献
 
 提交问题或代码前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [SECURITY.md](SECURITY.md)。
+
+## 社区友链
+
+本项目认可并支持 [LINUX DO](https://linux.do) 社区。
