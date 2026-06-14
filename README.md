@@ -8,6 +8,7 @@
 - 也可以双击工具，再从系统窗口选择一个 `.app`。
 - 执行前显示 App 名称和完整路径。
 - 只删除 `com.apple.quarantine`，不清除其他扩展属性。
+- 清除后验证已有代码签名，识别文件缺失或被修改的真正损坏情况。
 - 优先使用当前用户权限，仅在权限不足时显示 macOS 官方管理员授权窗口。
 - 不读取、不记录、不保存密码。
 
@@ -32,7 +33,7 @@
 
 ## 安装
 
-1. 从 GitHub Releases 下载最新的 `App-Unlock-Tool-v1.0.1-macOS.zip`。
+1. 从 GitHub Releases 下载最新的 `App-Unlock-Tool-v1.0.2-macOS.zip`。
 2. 解压缩。
 3. 把“App 解锁工具.app”移动到“应用程序”或桌面。
 4. 双击运行，或把需要处理的 App 拖到工具图标上。
@@ -73,8 +74,8 @@ bash scripts/build.sh
 构建产物：
 
 - `build/App 解锁工具.app`
-- `dist/App-Unlock-Tool-v1.0.1-macOS.zip`
-- `dist/App-Unlock-Tool-v1.0.1-macOS.zip.sha256`
+- `dist/App-Unlock-Tool-v1.0.2-macOS.zip`
+- `dist/App-Unlock-Tool-v1.0.2-macOS.zip.sha256`
 
 构建只使用 macOS 自带命令，无第三方依赖。
 

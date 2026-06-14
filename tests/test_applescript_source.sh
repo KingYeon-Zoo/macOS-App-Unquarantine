@@ -23,5 +23,7 @@ printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "on open"
 printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "on run"
 printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "with administrator privileges"
 printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "/usr/bin/xattr -dr com.apple.quarantine"
+printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "errorNumber is 20"
+printf '%s\n' "$DECOMPILED" | /usr/bin/grep -q "请从可信来源重新下载并安装"
 
-printf '通过：AppleScript 可编译，并包含双击、拖放及固定系统命令授权入口。\n'
+printf '通过：AppleScript 可编译，并包含拖放、授权和签名损坏诊断入口。\n'

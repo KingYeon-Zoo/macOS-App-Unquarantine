@@ -52,6 +52,9 @@ on processApp(appItem)
 	on error errorMessage number errorNumber
 		if errorNumber is 10 then
 			set resultState to "unchanged"
+		else if errorNumber is 20 then
+			my showDamagedSignature(appName)
+			return
 		else if errorNumber is 64 then
 			display dialog "所选路径不是有效的 App。" with title toolName buttons {"好"} default button "好" with icon stop
 			return
@@ -63,16 +66,27 @@ on processApp(appItem)
 				display dialog permissionText with title toolName buttons {"取消", "系统授权"} default button "系统授权" cancel button "取消" with icon caution
 				set adminCommandText to "/usr/bin/xattr -dr com.apple.quarantine " & quoted form of appPath
 				do shell script adminCommandText with administrator privileges
-				set resultState to "fixed"
+				try
+					do shell script commandText
+					set resultState to "fixed"
+				on error verificationMessage number verificationNumber
+					if verificationNumber is 10 then
+						set resultState to "fixed"
+					else if verificationNumber is 20 then
+						my showDamagedSignature(appName)
+						return
+					else
+						display dialog "隔离属性已清除，但后续验证失败：" & return & verificationMessage with title toolName buttons {"好"} default button "好" with icon stop
+						return
+					end if
+				end try
 			on error adminMessage number adminNumber
 				if adminNumber is -128 then
 					display dialog "你取消了系统授权，未进行修改。" with title toolName buttons {"好"} default button "好" with icon note
-				else if adminNumber is 10 then
-					set resultState to "unchanged"
 				else
 					display dialog "处理失败：" & return & adminMessage with title toolName buttons {"好"} default button "好" with icon stop
 				end if
-				if adminNumber is not 10 then return
+				return
 			end try
 		end if
 	end try
@@ -88,3 +102,8 @@ on processApp(appItem)
 		do shell script "/usr/bin/open " & quoted form of appPath
 	end if
 end processApp
+
+on showDamagedSignature(appName)
+	set messageText to "“" & appName & "”的隔离属性已处理，但代码签名验证失败。" & return & return & "这通常表示 App 内部文件缺失或被修改，继续删除隔离属性无法修复。请从可信来源重新下载并安装完整版本。"
+	display dialog messageText with title toolName buttons {"好"} default button "好" with icon stop
+end showDamagedSignature

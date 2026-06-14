@@ -92,5 +92,41 @@ else
   fail "其他扩展属性保持不变"
 fi
 
+BROKEN_SIGNED_APP="$TEMP_ROOT/签名资源损坏.app"
+mkdir -p "$BROKEN_SIGNED_APP/Contents/MacOS" "$BROKEN_SIGNED_APP/Contents/Resources"
+cat >"$BROKEN_SIGNED_APP/Contents/Info.plist" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleExecutable</key>
+  <string>BrokenSignedApp</string>
+  <key>CFBundleIdentifier</key>
+  <string>test.broken-signed-app</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+</dict>
+</plist>
+PLIST
+cat >"$BROKEN_SIGNED_APP/Contents/MacOS/BrokenSignedApp" <<'EXECUTABLE'
+#!/bin/sh
+exit 0
+EXECUTABLE
+chmod +x "$BROKEN_SIGNED_APP/Contents/MacOS/BrokenSignedApp"
+printf '签名后删除此文件\n' >"$BROKEN_SIGNED_APP/Contents/Resources/required.txt"
+/usr/bin/codesign --force --deep --sign - "$BROKEN_SIGNED_APP" >/dev/null 2>&1
+rm "$BROKEN_SIGNED_APP/Contents/Resources/required.txt"
+/usr/bin/xattr -w com.apple.quarantine "0081;test;Browser;UUID" "$BROKEN_SIGNED_APP"
+
+STATUS=0
+run_script "$BROKEN_SIGNED_APP" || STATUS=$?
+assert_status 20 "$STATUS" "隔离属性清除后能识别签名资源损坏"
+
+if /usr/bin/grep -q "代码签名" "$TEMP_ROOT/stderr"; then
+  pass "签名损坏时返回明确诊断"
+else
+  fail "签名损坏时返回明确诊断"
+fi
+
 printf '\n测试结果：%s 项通过，%s 项失败\n' "$PASSED" "$FAILED"
 [ "$FAILED" -eq 0 ]
