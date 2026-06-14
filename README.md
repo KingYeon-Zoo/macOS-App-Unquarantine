@@ -32,7 +32,7 @@
 
 ## 安装
 
-1. 从 GitHub Releases 下载 `App-Unlock-Tool-v1.0.0-macOS.zip`。
+1. 从 GitHub Releases 下载最新的 `App-Unlock-Tool-v1.0.1-macOS.zip`。
 2. 解压缩。
 3. 把“App 解锁工具.app”移动到“应用程序”或桌面。
 4. 双击运行，或把需要处理的 App 拖到工具图标上。
@@ -73,8 +73,8 @@ bash scripts/build.sh
 构建产物：
 
 - `build/App 解锁工具.app`
-- `dist/App-Unlock-Tool-v1.0.0-macOS.zip`
-- `dist/App-Unlock-Tool-v1.0.0-macOS.zip.sha256`
+- `dist/App-Unlock-Tool-v1.0.1-macOS.zip`
+- `dist/App-Unlock-Tool-v1.0.1-macOS.zip.sha256`
 
 构建只使用 macOS 自带命令，无第三方依赖。
 
@@ -119,4 +119,3 @@ MIT 许可证，详见 [LICENSE](LICENSE)。
 ## 参与贡献
 
 提交问题或代码前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [SECURITY.md](SECURITY.md)。
-

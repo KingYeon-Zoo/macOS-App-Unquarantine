@@ -17,7 +17,12 @@ if [ ! -d "$APP_PATH" ] || [[ "$APP_PATH" != *.app ]]; then
   exit "$EXIT_INVALID_INPUT"
 fi
 
-if ! /usr/bin/xattr -p com.apple.quarantine "$APP_PATH" >/dev/null 2>&1; then
+has_quarantine_attribute() {
+  /usr/bin/xattr -lr "$APP_PATH" 2>/dev/null |
+    /usr/bin/grep -q "com.apple.quarantine:"
+}
+
+if ! has_quarantine_attribute; then
   printf '无需修复：该 App 没有下载隔离属性。\n'
   exit "$EXIT_UNCHANGED"
 fi
@@ -27,7 +32,7 @@ if ! ERROR_OUTPUT=$(/usr/bin/xattr -dr com.apple.quarantine "$APP_PATH" 2>&1); t
   exit 1
 fi
 
-if /usr/bin/xattr -p com.apple.quarantine "$APP_PATH" >/dev/null 2>&1; then
+if has_quarantine_attribute; then
   printf '修复失败：隔离属性仍然存在。\n' >&2
   exit 1
 fi

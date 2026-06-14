@@ -31,7 +31,7 @@ assert_status() {
   if [ "$actual" -eq "$expected" ]; then
     pass "$name"
   else
-    fail "$name（预期状态码 $expected，实际 $actual）"
+    fail "${name}（预期状态码 ${expected}，实际 ${actual}）"
   fi
 }
 
@@ -57,6 +57,19 @@ mkdir -p "$NO_QUARANTINE_APP/Contents"
 STATUS=0
 run_script "$NO_QUARANTINE_APP" || STATUS=$?
 assert_status 10 "$STATUS" "没有隔离属性时返回无需修复"
+
+CHILD_ONLY_APP="$TEMP_ROOT/仅内部残留.app"
+mkdir -p "$CHILD_ONLY_APP/Contents/Resources"
+/usr/bin/xattr -w com.apple.quarantine "0081;test;Browser;UUID" "$CHILD_ONLY_APP/Contents/Resources"
+STATUS=0
+run_script "$CHILD_ONLY_APP" || STATUS=$?
+assert_status 0 "$STATUS" "仅内部文件带隔离属性时仍能递归修复"
+
+if /usr/bin/xattr -lr "$CHILD_ONLY_APP" 2>/dev/null | /usr/bin/grep -q "com.apple.quarantine"; then
+  fail "仅内部残留的隔离属性已删除"
+else
+  pass "仅内部残留的隔离属性已删除"
+fi
 
 QUARANTINED_APP="$TEMP_ROOT/带 空格的测试 应用.app"
 mkdir -p "$QUARANTINED_APP/Contents/MacOS"

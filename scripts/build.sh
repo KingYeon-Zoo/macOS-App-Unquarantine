@@ -8,7 +8,7 @@ HELPER="$PROJECT_ROOT/src/unquarantine.sh"
 BUILD_DIR="$PROJECT_ROOT/build"
 DIST_DIR="$PROJECT_ROOT/dist"
 APP="$BUILD_DIR/App 解锁工具.app"
-VERSION="1.0.0"
+VERSION="1.0.1"
 ARCHIVE_NAME="App-Unlock-Tool-v${VERSION}-macOS.zip"
 PLIST_BUDDY="/usr/libexec/PlistBuddy"
 

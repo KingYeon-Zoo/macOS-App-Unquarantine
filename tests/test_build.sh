@@ -5,7 +5,7 @@ set -eu
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_SCRIPT="$PROJECT_ROOT/scripts/build.sh"
 APP="$PROJECT_ROOT/build/App 解锁工具.app"
-ZIP="$PROJECT_ROOT/dist/App-Unlock-Tool-v1.0.0-macOS.zip"
+ZIP="$PROJECT_ROOT/dist/App-Unlock-Tool-v1.0.1-macOS.zip"
 CHECKSUM="$ZIP.sha256"
 
 if [ ! -x "$BUILD_SCRIPT" ]; then

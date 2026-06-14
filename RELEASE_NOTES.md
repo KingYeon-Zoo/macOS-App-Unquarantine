@@ -1,22 +1,26 @@
-# v1.0.0 发布说明
+# v1.0.1 发布说明
 
-首个公开版本。
+修复递归隔离属性检测问题。
 
-## 主要功能
+## 修复内容
 
-- 将需要处理的 App 拖到“App 解锁工具”上即可自动识别。
-- 双击工具时可从系统文件选择窗口选择 App。
-- 工具不会保存密码；权限不足时使用 macOS 官方管理员授权窗口。
-- 只删除所选 App 的 `com.apple.quarantine` 属性，不关闭 Gatekeeper。
+- 旧版本只检查 App 包最外层是否存在 `com.apple.quarantine`。
+- 当隔离属性仅残留在 App 内部文件或目录时，旧版本会错误显示“无需修复”。
+- 新版本会递归检测、递归删除并递归验证整个 App 包。
+- 修复命令等价于：
+
+```sh
+sudo xattr -r -d com.apple.quarantine "/Applications/目标应用.app"
+```
 
 ## 下载
 
-下载 `App-Unlock-Tool-v1.0.0-macOS.zip` 并解压即可使用。
+下载 `App-Unlock-Tool-v1.0.1-macOS.zip` 并解压即可使用。
 
 可使用同名 `.sha256` 文件核对下载完整性：
 
 ```sh
-shasum -a 256 -c App-Unlock-Tool-v1.0.0-macOS.zip.sha256
+shasum -a 256 -c App-Unlock-Tool-v1.0.1-macOS.zip.sha256
 ```
 
 ## 注意
