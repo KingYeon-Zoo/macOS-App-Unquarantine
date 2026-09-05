@@ -25,12 +25,6 @@
 - macOS 12 或更高版本
 - Apple Silicon 或 Intel Mac
 
-## GitHub 仓库信息
-
-- 建议仓库名：`macOS-App-Unquarantine`
-- 建议描述：`一个支持拖放、无需保存密码的 macOS App 下载隔离属性修复工具。`
-- 建议主题：`macos`、`applescript`、`quarantine`、`gatekeeper`、`open-source`
-
 ## 安装
 
 1. 从 GitHub Releases 下载最新的 `App-Unlock-Tool-v1.0.2-macOS.zip`。
@@ -65,7 +59,7 @@
 ## 从源码构建
 
 ```sh
-git clone <你的仓库地址>
+git clone https://github.com/KingYeon-Zoo/macOS-App-Unquarantine.git
 cd macOS-App-Unquarantine
 bash tests/test_unquarantine.sh
 bash scripts/build.sh
@@ -124,3 +118,7 @@ MIT 许可证，详见 [LICENSE](LICENSE)。
 ## 社区友链
 
 本项目认可并支持 [LINUX DO](https://linux.do) 社区。
+
+## 复核与验证
+
+[2026-09-05 复核记录](docs/reviews/2026-09-05.md)记录本次检查、结果与未覆盖部分。
